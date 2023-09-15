@@ -17,7 +17,7 @@ class CardWidget extends StatelessWidget {
     final mHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
-      height: mHeight * 0.25,
+      height: mHeight * 0.20,
       child: Swiper(
         itemCount: images.length,
         itemBuilder: (context, index) {

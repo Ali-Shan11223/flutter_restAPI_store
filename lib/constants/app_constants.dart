@@ -12,6 +12,12 @@ TextStyle subTitleTextStyle = const TextStyle(
   color: Colors.black,
 );
 
+TextStyle buttonTextStyle = const TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.blue,
+);
+
 Widget height(double height) {
   return SizedBox(
     height: height,
