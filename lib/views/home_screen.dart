@@ -39,45 +39,55 @@ class _HomeScreenState extends State<HomeScreen> {
             height(14),
             const SearchTextField(),
             height(14),
-            const CardWidget(),
-            height(14),
-            Text(
-              'Categories',
-              style: titleTextStyle,
-            ),
-            height(14),
-            const CategoryWidget(),
-            height(12),
-            Row(
-              children: [
-                Text(
-                  'Popular Products',
-                  style: titleTextStyle,
-                ),
-                const Spacer(),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AllProducts()));
-                    },
-                    child: Text('See All', style: buttonTextStyle))
-              ],
-            ),
-            height(12),
             Expanded(
-              child: GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 0.75),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return const ProductWidget();
-                  }),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CardWidget(),
+                    height(14),
+                    Text(
+                      'Categories',
+                      style: titleTextStyle,
+                    ),
+                    height(14),
+                    const CategoryWidget(),
+                    height(12),
+                    Row(
+                      children: [
+                        Text(
+                          'Popular Products',
+                          style: titleTextStyle,
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AllProducts()));
+                            },
+                            child: Text('See All', style: buttonTextStyle))
+                      ],
+                    ),
+                    height(12),
+                    GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.75),
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return const ProductWidget();
+                        })
+                  ],
+                ),
+              ),
             )
           ],
         ),
