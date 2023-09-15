@@ -3,6 +3,7 @@ import 'package:flutter_restapi_storeapp/constants/app_constants.dart';
 import '../widgets/card_widget.dart';
 import '../widgets/category_widget.dart';
 import '../widgets/product_widget.dart';
+import '../widgets/search_textfield.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,28 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             height(14),
-            TextField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  hintText: 'Search',
-                  suffixIcon: const Icon(
-                    Icons.search_rounded,
-                    size: 30,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  isDense: true,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                      )),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      ))),
-            ),
+            const SearchTextField(),
             height(14),
             const CardWidget(),
             height(14),
@@ -80,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height(12),
             Expanded(
               child: GridView.builder(
+                  shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
@@ -96,4 +77,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
