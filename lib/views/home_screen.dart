@@ -4,6 +4,7 @@ import '../widgets/card_widget.dart';
 import '../widgets/category_widget.dart';
 import '../widgets/product_widget.dart';
 import '../widgets/search_textfield.dart';
+import 'all_products.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final mHeight = MediaQuery.of(context).size.height;
-    final mWidth = MediaQuery.of(context).size.width;
+    // final mHeight = MediaQuery.of(context).size.height;
+    // final mWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SafeArea(
@@ -54,7 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: titleTextStyle,
                 ),
                 const Spacer(),
-                Text('See All', style: buttonTextStyle)
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AllProducts()));
+                    },
+                    child: Text('See All', style: buttonTextStyle))
               ],
             ),
             height(12),
