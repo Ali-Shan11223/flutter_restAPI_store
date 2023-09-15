@@ -1,8 +1,11 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_restapi_storeapp/models/products_model.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/app_constants.dart';
 import '../views/product_detail_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({
@@ -11,11 +14,16 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productsProvider = Provider.of<ProductsModel>(context);
+
     final mHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ProductDetails()));
+        Navigator.push(
+            context,
+            PageTransition(
+                child: ProductDetails(id: productsProvider.id.toString(),), type: PageTransitionType.fade));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -26,24 +34,23 @@ class ProductWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: FancyShimmerImage(
-                  height: mHeight * 0.2,
+                  height: mHeight * 0.18,
                   boxFit: BoxFit.cover,
                   errorWidget: const Icon(
                     Icons.dangerous,
                     color: Colors.red,
                     size: 30,
                   ),
-                  imageUrl:
-                      'https://images.pexels.com/photos/6157041/pexels-photo-6157041.jpeg?auto=compress&cs=tinysrgb&w=600'),
+                  imageUrl: productsProvider.images![0]),
             ),
             height(10),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Text(
-                'Title',
+                productsProvider.title!,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -55,17 +62,17 @@ class ProductWidget extends StatelessWidget {
               child: Row(
                 children: [
                   RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                           text: '\$',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.blue,
                           ),
                           children: [
                         TextSpan(
-                            text: '155.0',
-                            style: TextStyle(
+                            text: productsProvider.price.toString(),
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,

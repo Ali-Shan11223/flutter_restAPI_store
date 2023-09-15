@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi_storeapp/views/home_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'models/category_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider(create: (context) => CategoryModel(),
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'RESTAPI Store',
       theme: ThemeData(
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomeScreen(),
+    ),
     );
   }
 }

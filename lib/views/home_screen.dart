@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi_storeapp/constants/app_constants.dart';
+import '../models/products_model.dart';
+import '../services/api_handler.dart';
 import '../widgets/card_widget.dart';
 import '../widgets/category_widget.dart';
 import '../widgets/product_widget.dart';
 import '../widgets/search_textfield.dart';
 import 'all_products.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,9 +20,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // final mHeight = MediaQuery.of(context).size.height;
-    // final mWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -64,26 +65,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AllProducts()));
+                                  PageTransition(
+                                      child: const AllProducts(),
+                                      type: PageTransitionType.fade));
                             },
                             child: Text('See All', style: buttonTextStyle))
                       ],
                     ),
                     height(12),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                childAspectRatio: 0.75),
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return const ProductWidget();
+                    FutureBuilder<List<ProductsModel>>(
+                        future: APIHandler.getAllProducts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text(
+                                    'An error occured: ${snapshot.hasError}'));
+                          } else if (snapshot.data == null) {
+                            return const Center(
+                                child: Text(
+                                    'No products has been fetched yet!!!'));
+                          }
+                          return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10,
+                                      childAspectRatio: 0.75),
+                              itemCount: 3,
+                              itemBuilder: (context, index) {
+                                return ChangeNotifierProvider.value(
+                                  value: snapshot.data![index],
+                                  child: const ProductWidget());
+                              });
                         })
                   ],
                 ),
