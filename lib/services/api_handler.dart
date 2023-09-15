@@ -58,4 +58,25 @@ class APIHandler {
       throw e.toString();
     }
   }
+
+  static Future<List<ProductsModel>> getProductsByCategory(
+      {required String id}) async {
+    try {
+      var uri =
+          Uri.https(APIConstants.baseUrl, 'api/v1/categories/$id/products');
+      var response = await http.get(uri);
+      List temp = [];
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        for (var i in data) {
+          temp.add(i);
+        }
+        return ProductsModel.productsFromSnapshot(temp);
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }
