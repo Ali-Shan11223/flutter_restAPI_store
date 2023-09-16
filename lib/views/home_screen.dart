@@ -10,6 +10,8 @@ import 'all_products.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import 'all_users.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -34,7 +36,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: titleTextStyle,
                 ),
                 const Spacer(),
-                const Icon(Icons.notifications_on_outlined)
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const AllUsers(),
+                              type: PageTransitionType.fade));
+                    },
+                    child: const Icon(Icons.supervised_user_circle_outlined))
               ],
             ),
             height(14),
@@ -78,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(child: CircularProgressIndicator());
+                            return const Center(
+                                child: CircularProgressIndicator());
                           } else if (snapshot.hasError) {
                             return Center(
                                 child: Text(
@@ -100,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemCount: 3,
                               itemBuilder: (context, index) {
                                 return ChangeNotifierProvider.value(
-                                  value: snapshot.data![index],
-                                  child: const ProductWidget());
+                                    value: snapshot.data![index],
+                                    child: const ProductWidget());
                               });
                         })
                   ],

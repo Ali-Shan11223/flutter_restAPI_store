@@ -4,6 +4,7 @@ import 'package:flutter_restapi_storeapp/models/products_model.dart';
 import 'package:http/http.dart' as http;
 import '../constants/api_constants.dart';
 import '../models/category_model.dart';
+import '../models/user_model.dart';
 
 class APIHandler {
   static Future<List<ProductsModel>> getAllProducts() async {
@@ -77,6 +78,21 @@ class APIHandler {
       }
     } catch (e) {
       throw e.toString();
+    }
+  }
+
+  static Future<List<UsersModel>> getAllUsers() async {
+    var uri = Uri.https(APIConstants.baseUrl, APIConstants.allUsers);
+    var response = await http.get(uri);
+    List temp = [];
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      for (var i in data) {
+        temp.add(i);
+      }
+      return UsersModel.usersFromSnapshot(temp);
+    } else {
+      throw Exception('Error');
     }
   }
 }
